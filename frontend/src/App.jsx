@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Camera, Trash2, Recycle, Award, X, Loader, TrendingUp, CheckCircle } from 'lucide-react';
+import { MapPin, Camera, Trash2, Recycle, Award, X, Loader, TrendingUp, CheckCircle, Shield } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import Auth from './components/Auth';
 import WasteMap from './components/Map';
 import ImageUpload from './components/ImageUpload';
+import AdminDashboard from './components/AdminDashboard';
+import { useAuth } from './contexts/AuthContext';
+import AuthModal from './components/AuthModal';
+import { LogOut, LogIn } from 'lucide-react';
 
 const WasteMapApp = () => {
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('map');
   const [showReportForm, setShowReportForm] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   const [reports, setReports] = useState([]);
   const [recyclingCenters, setRecyclingCenters] = useState([]);
   const [filter, setFilter] = useState('all');
@@ -122,7 +129,8 @@ const WasteMapApp = () => {
           location_name: formData.location_name || 'Unknown Location',
           status: 'pending',
           upvotes: 0,
-          image_url: formData.image_url
+          image_url: formData.image_url,
+          user_id: user?.id || null
         }])
         .select();
 
@@ -234,28 +242,79 @@ const WasteMapApp = () => {
         </div>
       )}
 
-      {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4">
+      {/* Header - Clean & Modern */}
+      <header className="bg-white text-gray-800 shadow-sm sticky top-0 z-40 border-b border-gray-100">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Recycle className="w-8 h-8" />
+            <div className="flex items-center gap-2 cursor-pointer group" onClick={() => setActiveTab('map')}>
+              <div className="bg-green-100 p-2 rounded-xl group-hover:bg-green-200 transition-colors">
+                <Recycle className="w-6 h-6 text-green-600" />
+              </div>
               <div>
-                <h1 className="text-2xl font-bold">CleanCity</h1>
-                <p className="text-sm text-green-100">Community Waste Mapping Platform</p>
+                <h1 className="text-xl font-bold text-gray-800">CleanCity</h1>
+                <p className="text-xs text-green-600 font-medium">Waste Mapping Platform</p>
               </div>
             </div>
-            <button
-              onClick={() => {
-                getUserLocation();
-                setShowReportForm(true);
-              }}
-              className="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold hover:bg-green-50 transition flex items-center gap-2 shadow-md"
-            >
-              <Camera className="w-5 h-5" />
-              <span className="hidden sm:inline">Report Issue</span>
-              <span className="sm:hidden">Report</span>
-            </button>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  getUserLocation();
+                  setShowReportForm(true);
+                }}
+                className="bg-green-600 text-white px-4 sm:px-6 py-2 rounded-full font-semibold hover:bg-green-700 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2 shadow-md"
+              >
+                <Camera className="w-4 h-4" />
+                <span className="hidden sm:inline">Report Issue</span>
+              </button>
+
+              {/* Admin Dashboard Button */}
+              {user && (
+                <button
+                  onClick={() => setShowAdminDashboard(true)}
+                  className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors relative"
+                  title="Admin Dashboard"
+                >
+                  <Shield className="w-6 h-6" />
+                </button>
+              )}
+
+              <div className="w-px h-8 bg-gray-200 mx-1"></div>
+
+              {/* Login/Logout Buttons */}
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <div className="hidden md:flex items-center gap-2 p-1 pr-3 bg-gray-50 rounded-full border border-gray-100">
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                      {user.user_metadata?.username?.[0]?.toUpperCase() || user.email[0].toUpperCase()}
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {user.user_metadata?.username || user.email.split('@')[0]}
+                    </span>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      if (confirm('Are you sure you want to logout?')) {
+                        await signOut();
+                        setShowAdminDashboard(false);
+                      }
+                    }}
+                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+                    title="Logout"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="flex items-center gap-2 px-4 py-2 text-gray-600 font-semibold hover:text-green-600 hover:bg-green-50 rounded-full transition-all"
+                >
+                  <LogIn className="w-5 h-5" />
+                  <span className="hidden sm:inline">Login</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -326,7 +385,7 @@ const WasteMapApp = () => {
       <main className="container mx-auto px-4 py-6">
         {/* Report Form Modal */}
         {showReportForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] p-4">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[2000] p-4">
             <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Report Waste Issue</h2>
