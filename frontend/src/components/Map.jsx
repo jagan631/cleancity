@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -9,6 +10,15 @@ L.Icon.Default.mergeOptions({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+// Helper component to update map center
+function MapUpdater({ center }) {
+    const map = useMap();
+    useEffect(() => {
+        map.setView(center, map.getZoom());
+    }, [center, map]);
+    return null;
+}
 
 // Custom marker icons by type
 const createCustomIcon = (color) => {
@@ -34,29 +44,43 @@ export default function WasteMap({ reports, center = [28.6139, 77.2090] }) {
             zoom={13}
             className="h-[500px] w-full rounded-xl shadow-lg"
         >
+            <MapUpdater center={center} />
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {reports.map((report) => (
-                <Marker
-                    key={report.id}
-                    position={[report.latitude, report.longitude]}
-                    icon={createCustomIcon(typeColors[report.type])}
-                >
-                    <Popup>
-                        <div className="p-2">
-                            <h3 className="font-bold capitalize">{report.type.replace('-', ' ')}</h3>
-                            <p className="text-sm text-gray-600">{report.location_name}</p>
-                            <p className="text-sm mt-1">{report.description}</p>
-                            <span className="inline-block mt-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
-                                {report.status}
-                            </span>
-                        </div>
-                    </Popup>
-                </Marker>
-            ))}
+            {reports.map((report) => {
+                const lat = Number(report.latitude);
+                const lng = Number(report.longitude);
+
+                if (isNaN(lat) || isNaN(lng)) return null;
+
+                return (
+                    <CircleMarker
+                        key={report.id}
+                        center={[lat, lng]}
+                        radius={12}
+                        pathOptions={{
+                            fillColor: typeColors[report.type] || '#808080',
+                            fillOpacity: 1,
+                            color: 'white',
+                            weight: 3,
+                        }}
+                    >
+                        <Popup>
+                            <div className="p-2">
+                                <h3 className="font-bold capitalize">{report.type.replace('-', ' ')}</h3>
+                                <p className="text-sm text-gray-600">{report.location_name}</p>
+                                <p className="text-sm mt-1">{report.description}</p>
+                                <span className="inline-block mt-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                                    {report.status}
+                                </span>
+                            </div>
+                        </Popup>
+                    </CircleMarker>
+                );
+            })}
         </MapContainer>
     );
 }

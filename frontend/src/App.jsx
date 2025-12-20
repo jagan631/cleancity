@@ -326,7 +326,7 @@ const WasteMapApp = () => {
       <main className="container mx-auto px-4 py-6">
         {/* Report Form Modal */}
         {showReportForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] p-4">
             <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Report Waste Issue</h2>
@@ -458,7 +458,10 @@ const WasteMapApp = () => {
                 </div>
 
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[500px]">
-                  <WasteMap reports={filteredReports} />
+                  <WasteMap
+                    reports={filteredReports}
+                    center={userLocation ? [userLocation.lat, userLocation.lng] : undefined}
+                  />
                 </div>
               </div>
             )}
