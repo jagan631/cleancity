@@ -68,12 +68,22 @@ export default function WasteMap({ reports, center = [28.6139, 77.2090] }) {
                             weight: 3,
                         }}
                     >
-                        <Popup>
-                            <div className="p-2">
-                                <h3 className="font-bold capitalize">{report.type.replace('-', ' ')}</h3>
-                                <p className="text-sm text-gray-600">{report.location_name}</p>
-                                <p className="text-sm mt-1">{report.description}</p>
-                                <span className="inline-block mt-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                        <Popup maxWidth={300}>
+                            <div className="p-2 font-sans">
+                                <h3 className="font-bold capitalize text-gray-800 mb-2">{report.type.replace('-', ' ')}</h3>
+
+                                {report.image_url && (
+                                    <img
+                                        src={report.image_url}
+                                        alt="Waste report"
+                                        className="w-full h-32 object-cover rounded mb-2 cursor-pointer"
+                                        onClick={() => window.open(report.image_url, '_blank')}
+                                    />
+                                )}
+
+                                <p className="text-sm text-gray-600 mb-1">📍 {report.location_name}</p>
+                                <p className="text-sm text-gray-700 mb-3">{report.description}</p>
+                                <span className="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
                                     {report.status}
                                 </span>
                             </div>

@@ -386,6 +386,13 @@ const WasteMapApp = () => {
                     )}
                   </div>
                 </div>
+
+                <ImageUpload
+                  currentImage={formData.image_url}
+                  onImageUploaded={(url) => {
+                    setFormData({ ...formData, image_url: url });
+                  }}
+                />
               </div>
 
               <div className="flex gap-3 mt-6">
@@ -511,6 +518,17 @@ const WasteMapApp = () => {
                             </div>
 
                             <p className="text-gray-700 mb-4">{report.description}</p>
+
+                            {report.image_url && (
+                              <div className="mb-4">
+                                <img
+                                  src={report.image_url}
+                                  alt="Waste report"
+                                  className="w-full h-48 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition"
+                                  onClick={() => window.open(report.image_url, '_blank')}
+                                />
+                              </div>
+                            )}
 
                             <div className="flex items-center justify-between flex-wrap gap-4">
                               <button
