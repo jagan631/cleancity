@@ -152,7 +152,14 @@ const WasteMapApp = () => {
       setActiveTab('reports');
     } catch (error) {
       console.error('Error submitting report:', error);
-      showNotification('Failed to submit report', 'error');
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        full: error
+      });
+      showNotification('Failed to submit report: ' + (error.message || 'Unknown error'), 'error');
     } finally {
       setSubmitting(false);
     }
