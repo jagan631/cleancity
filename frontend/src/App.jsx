@@ -8,9 +8,11 @@ import AdminDashboard from './components/AdminDashboard';
 import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/AuthModal';
 import { LogOut, LogIn } from 'lucide-react';
+import { useAdmin } from './hooks/useAdmin';
 
 const WasteMapApp = () => {
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdmin();
   const [activeTab, setActiveTab] = useState('map');
   const [showReportForm, setShowReportForm] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -268,8 +270,8 @@ const WasteMapApp = () => {
                 <span className="hidden sm:inline">Report Issue</span>
               </button>
 
-              {/* Admin Dashboard Button */}
-              {user && (
+              {/* Admin Dashboard Button - Only for Admin Users */}
+              {isAdmin && (
                 <button
                   onClick={() => setShowAdminDashboard(true)}
                   className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors relative"
@@ -698,8 +700,24 @@ const WasteMapApp = () => {
             }
           </>
         )}
-      </main >
-    </div >
+      </main>
+
+      {/* Admin Dashboard Modal */}
+      {showAdminDashboard && (
+        <AdminDashboard onClose={() => setShowAdminDashboard(false)} />
+      )}
+
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <AuthModal
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => {
+            setShowAuthModal(false);
+            showNotification('Welcome! You are now logged in.', 'success');
+          }}
+        />
+      )}
+    </div>
   );
 };
 
