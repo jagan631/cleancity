@@ -164,22 +164,31 @@ export default function AdminDashboard({ onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[2000] overflow-y-auto">
-            <div className="min-h-screen p-4">
-                <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl">
-                    {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-xl">
-                        <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                                <Shield className="w-8 h-8" />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] overflow-y-auto animate-fade-in">
+            <div className="min-h-screen p-4 flex items-center justify-center">
+                <div className="max-w-7xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden animate-scale-in border border-white/20">
+                    {/* Enhanced Header with Animated Background */}
+                    <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white p-8 overflow-hidden">
+                        {/* Animated background pattern */}
+                        <div className="absolute inset-0 opacity-10">
+                            <div className="absolute top-0 left-0 w-64 h-64 bg-white/20 rounded-full blur-3xl animate-float"></div>
+                            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+                        </div>
+
+                        <div className="relative flex justify-between items-center">
+                            <div className="flex items-center gap-4 animate-slide-down">
+                                <div className="relative">
+                                    <Shield className="w-10 h-10 animate-pulse-slow" />
+                                    <div className="absolute inset-0 bg-white/20 rounded-full blur-xl animate-pulse-slow"></div>
+                                </div>
                                 <div>
-                                    <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-                                    <p className="text-sm text-blue-100">Municipal Waste Management System</p>
+                                    <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+                                    <p className="text-blue-100 font-medium">Municipal Waste Management Command Center</p>
                                 </div>
                             </div>
                             <button
                                 onClick={onClose}
-                                className="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition"
+                                className="group bg-white/10 hover:bg-white/20 p-2.5 rounded-xl transition-all duration-300 hover:rotate-90"
                             >
                                 <X className="w-6 h-6" />
                             </button>
@@ -187,148 +196,162 @@ export default function AdminDashboard({ onClose }) {
                     </div>
 
                     {/* Stats Cards */}
-                    <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-lg border-2 border-yellow-200">
-                            <div className="flex items-center gap-3">
-                                <Clock className="w-8 h-8 text-yellow-600" />
+                    {/* Enhanced Stats Cards with staggered animations */}
+                    <div className="p-8 grid grid-cols-2 md:grid-cols-4 gap-6 bg-gray-50/50">
+                        <div className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border-2 border-transparent hover:border-yellow-200 animate-slide-up">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <Clock className="w-6 h-6 text-white" />
+                                </div>
                                 <div>
-                                    <div className="text-2xl font-bold text-yellow-900">{stats.pending || 0}</div>
-                                    <div className="text-sm text-yellow-700">Pending</div>
+                                    <div className="text-2xl font-bold text-gray-800 group-hover:text-yellow-600 transition-colors">{stats.pending || 0}</div>
+                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Pending</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border-2 border-blue-200">
-                            <div className="flex items-center gap-3">
-                                <TrendingUp className="w-8 h-8 text-blue-600" />
+                        <div className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border-2 border-transparent hover:border-blue-200 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <TrendingUp className="w-6 h-6 text-white" />
+                                </div>
                                 <div>
-                                    <div className="text-2xl font-bold text-blue-900">{stats.inProgress || 0}</div>
-                                    <div className="text-sm text-blue-700">In Progress</div>
+                                    <div className="text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{stats.inProgress || 0}</div>
+                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">In Progress</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border-2 border-green-200">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle className="w-8 h-8 text-green-600" />
+                        <div className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border-2 border-transparent hover:border-green-200 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <CheckCircle className="w-6 h-6 text-white" />
+                                </div>
                                 <div>
-                                    <div className="text-2xl font-bold text-green-900">{stats.resolved || 0}</div>
-                                    <div className="text-sm text-green-700">Resolved</div>
+                                    <div className="text-2xl font-bold text-gray-800 group-hover:text-green-600 transition-colors">{stats.resolved || 0}</div>
+                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Resolved</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg border-2 border-purple-200">
-                            <div className="flex items-center gap-3">
-                                <AlertTriangle className="w-8 h-8 text-purple-600" />
+                        <div className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border-2 border-transparent hover:border-purple-200 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <AlertTriangle className="w-6 h-6 text-white" />
+                                </div>
                                 <div>
-                                    <div className="text-2xl font-bold text-purple-900">{stats.total || 0}</div>
-                                    <div className="text-sm text-purple-700">Total Reports</div>
+                                    <div className="text-2xl font-bold text-gray-800 group-hover:text-purple-600 transition-colors">{stats.total || 0}</div>
+                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Reports</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Filters and Export */}
-                    <div className="px-6 pb-4 flex flex-wrap gap-3 items-center justify-between">
-                        <div className="flex gap-2 flex-wrap">
+                    {/* Filters and List Section */}
+                    <div className="p-8">
+                        <div className="flex flex-wrap gap-4 items-center justify-between mb-6">
+                            <div className="flex bg-gray-100 p-1.5 rounded-2xl gap-1">
+                                <button
+                                    onClick={() => setFilter('all')}
+                                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${filter === 'all' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                                >
+                                    All ({stats.total || 0})
+                                </button>
+                                <button
+                                    onClick={() => setFilter('pending')}
+                                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${filter === 'pending' ? 'bg-white text-yellow-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                                >
+                                    Pending ({stats.pending || 0})
+                                </button>
+                                <button
+                                    onClick={() => setFilter('in-progress')}
+                                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${filter === 'in-progress' ? 'bg-white text-blue-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                                >
+                                    Progress ({stats.inProgress || 0})
+                                </button>
+                                <button
+                                    onClick={() => setFilter('resolved')}
+                                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${filter === 'resolved' ? 'bg-white text-green-600 shadow-md scale-105' : 'text-gray-500 hover:text-gray-700'}`}
+                                >
+                                    Resolved ({stats.resolved || 0})
+                                </button>
+                            </div>
+
                             <button
-                                onClick={() => setFilter('all')}
-                                className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
-                                    }`}
+                                onClick={exportToCSV}
+                                className="group flex items-center gap-2.5 px-6 py-3 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-all hover-lift"
                             >
-                                All ({stats.total || 0})
-                            </button>
-                            <button
-                                onClick={() => setFilter('pending')}
-                                className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${filter === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-700'
-                                    }`}
-                            >
-                                Pending ({stats.pending || 0})
-                            </button>
-                            <button
-                                onClick={() => setFilter('in-progress')}
-                                className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${filter === 'in-progress' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-                                    }`}
-                            >
-                                In Progress ({stats.inProgress || 0})
-                            </button>
-                            <button
-                                onClick={() => setFilter('resolved')}
-                                className={`px-4 py-2 rounded-lg font-semibold text-sm transition ${filter === 'resolved' ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700'
-                                    }`}
-                            >
-                                Resolved ({stats.resolved || 0})
+                                <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+                                Export Reports
                             </button>
                         </div>
 
-                        <button
-                            onClick={exportToCSV}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-900 transition"
-                        >
-                            <Download className="w-4 h-4" />
-                            Export CSV
-                        </button>
-                    </div>
-
-                    {/* Reports Table */}
-                    <div className="px-6 pb-6">
-                        <div className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden">
+                        <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-inner">
                             {loading ? (
-                                <div className="p-12 text-center">
-                                    <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-                                    <p className="text-gray-600 mt-4">Loading reports...</p>
+                                <div className="p-20 text-center animate-fade-in">
+                                    <div className="relative inline-block mb-4">
+                                        <div className="absolute inset-0 bg-blue-100 rounded-full blur-xl animate-pulse"></div>
+                                        <Shield className="w-12 h-12 text-blue-600 animate-spin-slow relative z-10" />
+                                    </div>
+                                    <p className="text-gray-600 font-bold animate-pulse">Synchronizing database...</p>
                                 </div>
                             ) : reports.length === 0 ? (
-                                <div className="p-12 text-center text-gray-500">
+                                <div className="p-12 text-center text-gray-500 animate-fade-in">
                                     No reports found for this filter.
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50 border-b-2 border-gray-200">
+                                        <thead className="bg-gray-50/50 border-b border-gray-100">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">ID</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Location</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Upvotes</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Date</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">ID</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Type</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Location</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Upvotes</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Date</th>
+                                                <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-200">
-                                            {reports.map((report) => (
-                                                <tr key={report.id} className="hover:bg-gray-50 transition">
-                                                    <td className="px-4 py-3">
-                                                        <span className="font-mono text-sm text-gray-600">#{report.id}</span>
+                                        <tbody className="divide-y divide-gray-50">
+                                            {reports.map((report, index) => (
+                                                <tr
+                                                    key={report.id}
+                                                    className="group hover:bg-blue-50/30 transition-all duration-300 hover-lift animate-slide-up"
+                                                    style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                                                >
+                                                    <td className="px-6 py-4">
+                                                        <span className="font-mono text-xs font-bold text-gray-400 group-hover:text-blue-500 transition-colors">#{String(report.id || '').substring(0, 8)}</span>
                                                     </td>
-                                                    <td className="px-4 py-3">
-                                                        <span className={`inline-block px-2 py-1 rounded text-xs font-semibold text-white ${getTypeColor(report.type)}`}>
-                                                            {report.type.replace('-', ' ')}
+                                                    <td className="px-6 py-4">
+                                                        <span className={`inline-block px-3 py-1 rounded-lg text-xs font-bold text-white shadow-sm ${getTypeColor(report.type)}`}>
+                                                            {report.type.replace('-', ' ').toUpperCase()}
                                                         </span>
                                                     </td>
-                                                    <td className="px-4 py-3">
-                                                        <div className="flex items-center gap-1 text-sm text-gray-700">
-                                                            <MapPin className="w-3 h-3" />
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                                            <MapPin className="w-4 h-4 text-blue-500" />
                                                             {report.location_name}
                                                         </div>
                                                     </td>
-                                                    <td className="px-4 py-3">
-                                                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(report.status)}`}>
-                                                            {report.status}
+                                                    <td className="px-6 py-4">
+                                                        <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold border-2 ${getStatusColor(report.status)} shadow-sm`}>
+                                                            {report.status.toUpperCase()}
                                                         </span>
                                                     </td>
-                                                    <td className="px-4 py-3 text-sm text-gray-700">
-                                                        👍 {report.upvotes}
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-1.5 font-bold text-gray-700">
+                                                            <span className="text-blue-500 text-lg">👍</span>
+                                                            {report.upvotes}
+                                                        </div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-sm text-gray-600">
-                                                        {new Date(report.created_at).toLocaleDateString()}
+                                                    <td className="px-6 py-4 text-sm font-semibold text-gray-500">
+                                                        {new Date(report.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                                     </td>
-                                                    <td className="px-4 py-3">
+                                                    <td className="px-6 py-4 text-right">
                                                         <button
                                                             onClick={() => setSelectedReport(report)}
-                                                            className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                                                            className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl font-bold text-sm transition-all duration-300"
                                                         >
                                                             Manage →
                                                         </button>
