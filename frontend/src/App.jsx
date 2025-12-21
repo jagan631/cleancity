@@ -8,6 +8,7 @@ import AdminDashboard from './components/AdminDashboard';
 import { useAuth } from './contexts/AuthContext';
 import AuthModal from './components/AuthModal';
 import { useAdmin } from './hooks/useAdmin';
+import CameraPermissionGuide from './components/CameraPermissionGuide';
 
 const WasteMapApp = () => {
   const { user, signOut } = useAuth();
@@ -561,6 +562,10 @@ const WasteMapApp = () => {
                       setFormData({ ...formData, image_url: url });
                     }}
                   />
+                </div>
+
+                <div className="mb-6">
+                  <CameraPermissionGuide />
                 </div>
 
                 <div className="flex gap-3 mt-6">
