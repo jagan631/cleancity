@@ -1,4 +1,6 @@
+# ------------------------------
 # Logs
+# ------------------------------
 logs
 *.log
 npm-debug.log*
@@ -7,28 +9,53 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Node modules
+# ------------------------------
+# Dependencies
+# ------------------------------
 node_modules/
+
+# ------------------------------
+# Build outputs
+# ------------------------------
 dist/
 dist-ssr/
-*.local
+build/
 
+# ------------------------------
 # Environment variables (Confidential)
+# ------------------------------
 .env
 .env.*
 !.env.example
 
-# Editor directories and files
+# ------------------------------
+# Local config files
+# ------------------------------
+*.local
+
+# ------------------------------
+# Editor / IDE files
+# ------------------------------
 .vscode/*
 !.vscode/extensions.json
 .idea/
 .DS_Store
+Thumbs.db
+
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
 
-# Vercel/Netlify
-.vercel
-.netlify
+# ------------------------------
+# Deployment platforms
+# ------------------------------
+.vercel/
+.netlify/
+
+# ------------------------------
+# Misc
+# ------------------------------
+coverage/
